@@ -10,6 +10,7 @@ import {
   Eye,
   EyeOff,
   ArrowRight,
+  AlertCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import signupImage from "../../../assets/images/signup_image.png";
@@ -18,30 +19,36 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-import { sectionVariants } from "../../../utils/constantsVariants";
+import {
+  sectionVariants,
+  sectionVariantsFromTop,
+} from "../../../utils/constantsVariants";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../Slices/authSlice";
+import { showLoginSuccessAlert } from "../../../utils/sweetAlertNotifications";
 
 const signUpSchema = z
   .object({
     name: z
       .string()
       .trim()
-      .min(2, "Full name must be at least 2 characters")
-      .max(100, "Full name must not exceed 100 characters"),
+      .min(2, "*Full name must be at least 2 characters")
+      .max(100, "*Full name must not exceed 100 characters"),
 
-    email: z.string().trim().email("Please enter a valid email address"),
+    email: z.string().trim().email("*Please enter a valid email address"),
 
     password: z
       .string()
-      .min(8, "Password must be at least 8 characters")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-      .regex(/[0-9]/, "Password must contain at least one number")
+      .min(8, "*Password must be at least 8 characters")
+      .regex(/[A-Z]/, "*Password must contain at least one uppercase letter")
+      .regex(/[a-z]/, "*Password must contain at least one lowercase letter")
+      .regex(/[0-9]/, "*Password must contain at least one number")
       .regex(
         /[^A-Za-z0-9]/,
-        "Password must contain at least one special character",
+        "*Password must contain at least one special character",
       ),
 
-    confirmPassword: z.string().min(1, "Please confirm your password"),
+    confirmPassword: z.string().min(1, "*Please confirm your password"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -52,6 +59,8 @@ export default function SignUp() {
   const [role, setRole] = useState("USER");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useDispatch();
+  const { registerLoading, registerError } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const {
     register,
@@ -62,11 +71,18 @@ export default function SignUp() {
     mode: "onSubmit",
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // confirmPassword is only used for validation
     const { confirmPassword, ...submittedData } = data;
     const submited = { role: role, ...submittedData };
-    console.log("Submitted data:", submited);
+    const result = await dispatch(registerUser(submited));
+    if (registerUser.fulfilled.match(result)) {
+      navigate("/Authentication/Login", { replace: true });
+      showLoginSuccessAlert(
+        result.payload.name,
+        "Register successful, please login",
+      );
+    }
   };
   return (
     <motion.div
@@ -256,7 +272,7 @@ export default function SignUp() {
                 <div className="relative">
                   <input
                     {...register("name")}
-                    className={`w-full h-12 px-4 pl-11 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-inner ${
+                    className={`w-full h-12 px-4 pl-11 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none  transition-all shadow-inner ${
                       errors.name ? "border border-red-500" : ""
                     }`}
                     id="reg-fullname"
@@ -271,9 +287,15 @@ export default function SignUp() {
                 </div>
 
                 {errors.name && (
-                  <p className="text-red-500 font-label-sm text-label-sm">
+                  <motion.p
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.15 }}
+                    variants={sectionVariantsFromTop}
+                    className="text-red-500 font-label-sm text-label-sm"
+                  >
                     {errors.name.message}
-                  </p>
+                  </motion.p>
                 )}
               </div>
 
@@ -289,7 +311,7 @@ export default function SignUp() {
                 <div className="relative">
                   <input
                     {...register("email")}
-                    className={`w-full h-12 px-4 pl-11 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-inner ${
+                    className={`w-full h-12 px-4 pl-11 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none  transition-all shadow-inner ${
                       errors.email ? "border border-red-500" : ""
                     }`}
                     id="reg-email"
@@ -304,9 +326,15 @@ export default function SignUp() {
                 </div>
 
                 {errors.email && (
-                  <p className="text-red-500 font-label-sm text-label-sm">
+                  <motion.p
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.15 }}
+                    variants={sectionVariantsFromTop}
+                    className="text-red-500 font-label-sm text-label-sm"
+                  >
                     {errors.email.message}
-                  </p>
+                  </motion.p>
                 )}
               </div>
 
@@ -322,7 +350,7 @@ export default function SignUp() {
                 <div className="relative">
                   <input
                     {...register("password")}
-                    className={`w-full h-12 px-4 pl-11 pr-11 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-inner ${
+                    className={`w-full h-12 px-4 pl-11 pr-11 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none  transition-all shadow-inner ${
                       errors.password ? "border border-red-500" : ""
                     }`}
                     id="reg-password"
@@ -349,9 +377,15 @@ export default function SignUp() {
                 </div>
 
                 {errors.password && (
-                  <p className="text-red-500 font-label-sm text-label-sm">
+                  <motion.p
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.15 }}
+                    variants={sectionVariantsFromTop}
+                    className="text-red-500 font-label-sm text-label-sm"
+                  >
                     {errors.password.message}
-                  </p>
+                  </motion.p>
                 )}
               </div>
 
@@ -367,7 +401,7 @@ export default function SignUp() {
                 <div className="relative">
                   <input
                     {...register("confirmPassword")}
-                    className={`w-full h-12 px-4 pl-11 pr-11 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all shadow-inner ${
+                    className={`w-full h-12 px-4 pl-11 pr-11 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none  transition-all shadow-inner ${
                       errors.confirmPassword ? "border border-red-500" : ""
                     }`}
                     id="reg-confirm"
@@ -398,19 +432,59 @@ export default function SignUp() {
                 </div>
 
                 {errors.confirmPassword && (
-                  <p className="text-red-500 font-label-sm text-label-sm">
+                  <motion.p
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.15 }}
+                    variants={sectionVariantsFromTop}
+                    className="text-red-500 font-label-sm text-label-sm"
+                  >
                     {errors.confirmPassword.message}
-                  </p>
+                  </motion.p>
                 )}
               </div>
-
+              {registerError && (
+                <motion.div
+                  className="flex items-center gap-3 p-3.5 px-4 rounded-xl bg-error-container/40 text-on-error-container border border-error/20"
+                  role="alert"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.15 }}
+                  variants={sectionVariantsFromTop}
+                >
+                  <AlertCircle />
+                  <div className="flex flex-col">
+                    <span className="font-label-md text-label-md text-error font-semibold">
+                      {registerError}
+                    </span>
+                    <span className="font-body-sm text-[13px] text-on-surface-variant leading-tight">
+                      {registerError.includes("server")
+                        ? "Please check your network and try again."
+                        : "You can create a new account by another Email"}
+                    </span>
+                  </div>
+                </motion.div>
+              )}
               {/* Submit */}
               <button
                 className="cursor-pointer w-full h-12 mt-2 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:bg-primary-container active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-sm"
                 type="submit"
               >
-                <span>Create EventVerse Account</span>
-                <ArrowRight size={18} />
+                {!registerLoading && (
+                  <>
+                    <span>Create EventVerse Account</span>
+                    <ArrowRight size={18} />
+                  </>
+                )}{" "}
+                {registerLoading && (
+                  <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.15 }}
+                    variants={sectionVariantsFromTop}
+                    className="w-5 h-5 border-4 border-on-surface-variant border-t-on-primary rounded-full animate-spin"
+                  ></motion.div>
+                )}
               </button>
             </form>
 

@@ -31,7 +31,7 @@ const loginSchema = z.object({
 });
 export default function Login() {
   const dispatch = useDispatch();
-  const { loading, error, user } = useSelector((state) => state.auth);
+  const { loading, error } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const {
@@ -47,24 +47,17 @@ export default function Login() {
   });
 
   const onSubmit = async (body) => {
-    console.log(body);
     const result = await dispatch(loginUser(body));
-    console.log(result);
     // navigate only if the thunk succeeded
     if (loginUser.fulfilled.match(result)) {
       if (result.payload.role.toLowerCase() === "user") {
-        console.log("i AM here");
         navigate("/AttendeeDashboard");
       } else {
-        console.log("i AM here");
         navigate("/OrganizerDashboard");
       }
       showLoginSuccessAlert(result.payload.name, "Login successful");
     }
   };
-  console.log("user state:", user);
-  console.log("error state:", error);
-  console.log("loading state:", loading);
   return (
     <motion.div
       className="flex flex-col w-full pt-20 drop-shadow-3xl"
@@ -310,7 +303,13 @@ export default function Login() {
                 >
                   {!loading && <span>Sign In to EventVerse</span>}
                   {loading && (
-                    <div className="w-5 h-5 border-4 border-on-surface-variant border-t-on-primary rounded-full animate-spin"></div>
+                    <motion.div
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, amount: 0.15 }}
+                      variants={sectionVariantsFromTop}
+                      className="w-5 h-5 border-4 border-on-surface-variant border-t-on-primary rounded-full animate-spin"
+                    ></motion.div>
                   )}
                   {!loading && (
                     <ArrowRight

@@ -1,25 +1,22 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import LandingPage from "../Pages/Landing/LandingPage";
-
-// import NotFoundPage from "../Pages/NotFoundPage";
-
-import AuthenticationLayout from "../Components/Layout/AuthenticationLayout";
-import Login from "../Pages/Authentication/Login";
-import SignUp from "../Pages/Authentication/SignUp";
-
-import OrganizerDashboardLayout from "../Components/Layout/OrganizerDashboardLayout";
-import OverView from "../pages/Organizer/OverView";
-import Events from "../pages/Organizer/Events";
-import AddEvent from "../pages/Organizer/AddEvent";
-import AttendeeDashboardLayout from "../Components/Layout/AttendeeDashboardLayout";
-import Home from "../pages/Attendees/Home";
-import Tickets from "../pages/Attendees/Tickets";
-import FavouritesEvents from "../pages/Attendees/FavouritesEvents";
-import BookingHistory from "../pages/Attendees/BookingHistory";
-import AttendeeProfile from "../pages/Attendees/AttendeeProfile";
-import NotFoundPage from "../Guard/NotFoundPage";
-import ProtectedRoute from "../Guard/ProtectedRoute";
 import ProtectedAuth from "../Guard/ProtectedAuth";
+import LandingPage from "../Features/Landing/page/LandingPage";
+import AuthenticationLayout from "../Components/Layout/AuthenticationLayout";
+import OrganizerDashboardLayout from "../Components/Layout/OrganizerDashboardLayout";
+import AttendeeDashboardLayout from "../Components/Layout/AttendeeDashboardLayout";
+import Login from "../Features/Authentication/pages/Login";
+import SignUp from "../Features/Authentication/pages/SignUp";
+import ProtectedRoute from "../Guard/ProtectedRoute";
+import OverView from "../Features/Organizer/OverView";
+import Events from "../Features/Organizer/Events";
+import AddEvent from "../Features/Organizer/AddEvent";
+import Home from "../Features/Attendees/Home";
+import FavouritesEvents from "../Features/Attendees/FavouritesEvents";
+import Tickets from "../Features/Attendees/Tickets";
+import BookingHistory from "../Features/Attendees/BookingHistory";
+import AttendeeProfile from "../Features/Attendees/AttendeeProfile";
+import NotFoundPage from "../Guard/NotFoundPage";
+
 // import ProtectedAuth from "./ProtectedAuth";
 export default function AppRouter() {
   return (

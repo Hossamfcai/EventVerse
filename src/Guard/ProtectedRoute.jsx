@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { getLocalStorageItem } from "../utils/localStorage";
 
 export default function ProtectedRoute({ allowedRoles }) {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const token = getLocalStorageItem("token");
+  const role = getLocalStorageItem("role");
 
   if (!token) {
     return <Navigate to="/Authentication" replace />;

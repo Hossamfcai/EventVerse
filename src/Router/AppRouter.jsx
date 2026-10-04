@@ -16,11 +16,13 @@ import Tickets from "../Features/Attendees/Tickets";
 import BookingHistory from "../Features/Attendees/BookingHistory";
 import AttendeeProfile from "../Features/Attendees/AttendeeProfile";
 import NotFoundPage from "../Guard/NotFoundPage";
+import EventDetails from "../Features/Landing/page/EventDetails";
 
 // import ProtectedAuth from "./ProtectedAuth";
 export default function AppRouter() {
   return (
     <Routes>
+      <Route path="/Eventdetails/:id" element={<EventDetails />} />
       {/*if there are authenticated user or admin can not return to landing page without logout first so empty */}
       <Route element={<ProtectedAuth />}>
         <Route path="/" element={<LandingPage />} />

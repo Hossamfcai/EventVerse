@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const sectionIds = ["published", "upcoming", "howItWorks", "aboutus"];
+  const sectionIds = ["home", "published", "upcoming", "howItWorks", "aboutus"];
   const navigate = useNavigate();
   const items = [
+    { href: "home", title: "Home" },
     { href: "published", title: "Published Events" },
     { href: "upcoming", title: "UpComing Events" },
     { href: "howItWorks", title: "How It Works" },
@@ -25,7 +26,12 @@ export default function Navbar() {
       <div className="h-20 max-w-[1360px] mx-auto px-gutter flex items-center justify-between gap-space-md">
         {/* Logo */}
         <div className="flex items-center gap-space-sm flex-shrink-0">
-          <a href="#heroSection">
+          <a
+            onClick={() => {
+              navigate("/landingpage");
+            }}
+            className="cursor-pointer hover:scale-105 transition-transform"
+          >
             <img src={logo} alt="EventVerse" className="w-45 h-auto" />
           </a>
         </div>

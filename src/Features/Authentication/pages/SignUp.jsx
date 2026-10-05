@@ -92,16 +92,16 @@ export default function SignUp() {
       viewport={{ once: true, amount: 0.15 }}
       variants={sectionVariants}
     >
-      <div className="w-full max-w-[1360px] mx-auto px-margin-mobile md:px-margin py-space-md md:py-space-xl">
-        <div className="max-w-5xl mx-auto bg-surface-container-lowest rounded-3xl shadow-xl overflow-hidden border border-outline-variant/30 flex flex-col md:flex-row">
+      <div className="w-full max-w-[1360px] mx-auto px-margin-mobile md:px-margin py-space-md md:py-space-xl drop-shadow-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 rounded-3xl overflow-hidden shadow-xl bg-surface-container-lowest">
           {/* Left Editorial Column */}
-          <div className="md:w-5/12 relative min-h-[460px] md:min-h-[700px] flex flex-col justify-between p-8 md:p-10 text-on-primary overflow-hidden">
-            <img
-              className="absolute inset-0 bg-cover bg-center"
-              src={signupImage}
+          <div className="lg:col-span-6 relative flex flex-col justify-between p-space-lg md:p-space-xl min-h-[640px] bg-primary text-on-primary overflow-hidden">
+            <div
+              className="absolute inset-0 w-full h-full  bg-cover bg-center"
+              style={{ backgroundImage: `url(${signupImage})` }}
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary-container/85 to-primary-container/50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary-container/35  to-primary-container/50" />
 
             {/* Top Tag */}
             <div className="relative z-10 flex items-center justify-between">
@@ -204,7 +204,7 @@ export default function SignUp() {
           </div>
 
           {/* Right Registration Column */}
-          <div className="md:w-7/12 p-8 sm:p-10 md:p-12 flex flex-col justify-center bg-surface-container-lowest">
+          <div className="lg:col-span-6 bg-surface-container-lowest p-space-lg md:p-space-xl flex flex-col justify-between">
             {/* Header */}
             <div className="space-y-2 mb-6">
               <div className="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm uppercase tracking-widest">
@@ -469,6 +469,7 @@ export default function SignUp() {
               <button
                 className="cursor-pointer w-full h-12 mt-2 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg hover:bg-primary-container active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-sm"
                 type="submit"
+                disabled={registerLoading}
               >
                 {!registerLoading && (
                   <>

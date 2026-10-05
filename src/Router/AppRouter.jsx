@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedAuth from "../Guard/ProtectedAuth";
-import LandingPage from "../Features/Landing/page/LandingPage";
+import LandingPage from "../Features/Public/page/LandingPage";
 import AuthenticationLayout from "../Components/Layout/AuthenticationLayout";
 import OrganizerDashboardLayout from "../Components/Layout/OrganizerDashboardLayout";
 import AttendeeDashboardLayout from "../Components/Layout/AttendeeDashboardLayout";
@@ -16,7 +16,7 @@ import Tickets from "../Features/Attendees/Tickets";
 import BookingHistory from "../Features/Attendees/BookingHistory";
 import AttendeeProfile from "../Features/Attendees/AttendeeProfile";
 import NotFoundPage from "../Guard/NotFoundPage";
-import EventDetails from "../Features/Landing/page/EventDetails";
+import EventDetails from "../Features/Public/page/EventDetails";
 
 // import ProtectedAuth from "./ProtectedAuth";
 export default function AppRouter() {

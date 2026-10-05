@@ -66,17 +66,16 @@ export default function Login() {
       viewport={{ once: true, amount: 0.15 }}
       variants={sectionVariants}
     >
-      <div className="max-w-[1360px] mx-auto w-full px-margin-mobile md:px-margin py-space-xl">
+      <div className="max-w-[1360px] mx-auto w-full px-margin-mobile md:px-margin py-space-xl drop-shadow-2xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 rounded-3xl overflow-hidden shadow-xl bg-surface-container-lowest">
           {/* Left Column / Curated Photographic Experience Panel */}
           <div className="lg:col-span-6 relative flex flex-col justify-between p-space-lg md:p-space-xl min-h-[640px] bg-primary text-on-primary overflow-hidden">
-            <img
-              className="absolute inset-0 bg-cover bg-center opacity-60 scale-105 transition-transform duration-1000 ease-out hover:scale-100"
-              src={loginImage}
+            <div
+              className="absolute inset-0 w-full h-full  bg-cover bg-center"
+              style={{ backgroundImage: `url(${loginImage})` }}
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-transparent to-primary/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary-container/35  to-primary-container/50" />
 
             {/* Top Tag & Security Stamp */}
             <div className="relative z-10 flex items-center justify-between gap-space-sm">
@@ -107,7 +106,7 @@ export default function Login() {
             </div>
 
             {/* Bottom Curatorial Metrics */}
-            <div className="relative z-10 pt-space-md bg-primary/40 backdrop-blur-sm -mx-space-lg md:-mx-space-xl -mb-space-lg md:-mb-space-xl p-space-lg md:p-space-xl">
+            <div className="relative z-10 pt-space-md  -mx-space-lg md:-mx-space-xl -mb-space-lg md:-mb-space-xl p-space-lg md:p-space-xl">
               <div className="grid grid-cols-2 gap-space-lg">
                 <div>
                   <div className="flex items-baseline gap-1.5">
@@ -300,6 +299,7 @@ export default function Login() {
                 <button
                   className="group cursor-pointer w-full py-3.5 px-6 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-primary-container active:scale-[0.99] transition-all duration-150 shadow-md"
                   type="submit"
+                  disabled={loading}
                 >
                   {!loading && <span>Sign In to EventVerse</span>}
                   {loading && (

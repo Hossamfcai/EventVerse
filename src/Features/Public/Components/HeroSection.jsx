@@ -8,7 +8,7 @@ export default function HeroSection() {
   return (
     <motion.section
       className="relative w-full -mt-20 overflow-hidden bg-primary-container text-on-primary"
-      id="heroSection"
+      id="home"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.15 }}

@@ -6,6 +6,7 @@ import EventCard from "../../../Components/ui/EventCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getEvents } from "../../../Store/Slices/sharedSlice";
+import EventCardSkeleton from "../../../Components/ui/EventCardSkeleton";
 export default function EventsSection({
   text,
   icon,
@@ -70,17 +71,25 @@ export default function EventsSection({
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
           {sectionName == "published" &&
-            published.map((eventItem, i) => {
-              if (i <= 2) {
-                return <EventCard data={eventItem} />;
-              }
-            })}
+            (loading
+              ? Array.from({ length: 3 }).map((_, i) => {
+                  return <EventCardSkeleton key={i} />;
+                })
+              : published.map((eventItem, i) => {
+                  if (i <= 2) {
+                    return <EventCard data={eventItem} key={eventItem.id} />;
+                  }
+                }))}
           {sectionName == "upcoming" &&
-            upcoming.map((eventItem, i) => {
-              if (i <= 2) {
-                return <EventCard data={eventItem} />;
-              }
-            })}
+            (loading
+              ? Array.from({ length: 3 }).map((_, i) => {
+                  return <EventCardSkeleton key={i} />;
+                })
+              : upcoming.map((eventItem, i) => {
+                  if (i <= 2) {
+                    return <EventCard data={eventItem} key={eventItem.id} />;
+                  }
+                }))}
         </div>
       </div>
     </motion.section>

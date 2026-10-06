@@ -1,10 +1,17 @@
 import { motion } from "framer-motion";
 import { Ticket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { sectionVariants } from "../../../utils/constantsVariants";
 export default function Note() {
   const navigate = useNavigate();
   return (
-    <motion.section className="w-full bg-background border-b border-outline-variant/30 py-space-md">
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={sectionVariants}
+      className="w-full bg-background border-b border-outline-variant/30 py-space-md"
+    >
       <div className="max-w-[1360px] mx-auto px-gutter">
         <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-space-md shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md">
           <div className="flex items-center gap-space-sm">

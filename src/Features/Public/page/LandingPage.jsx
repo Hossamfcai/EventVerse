@@ -9,6 +9,8 @@ import Footer from "../../../Components/ui/Footer";
 import About from "../Components/AboutSection";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getEvents } from "../../../Store/Slices/eventsSlice";
 const eventsSectionHeader = [
   {
     sectionName: "published",
@@ -25,8 +27,10 @@ const eventsSectionHeader = [
     para: "Chronological performances, vernissages, and culinary residences for the upcoming season.",
   },
 ];
+
 export default function LandingPage() {
   const location = useLocation();
+  const dispatch = useDispatch();
   useEffect(() => {
     // Check if a scrollTo target was passed via state
     if (location.state?.scrollTo) {
@@ -39,6 +43,10 @@ export default function LandingPage() {
       }
     }
   }, [location]);
+  useEffect(() => {
+    dispatch(getEvents());
+  }, []);
+
   return (
     <>
       <Navbar />

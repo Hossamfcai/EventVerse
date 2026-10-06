@@ -3,9 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import EventCard from "../../../Components/ui/EventCard";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getEvents } from "../../../Store/Slices/sharedSlice";
+import { useSelector } from "react-redux";
 import EventCardSkeleton from "../../../Components/ui/EventCardSkeleton";
 export default function EventsSection({
   text,
@@ -15,17 +13,15 @@ export default function EventsSection({
   sectionName,
 }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { loading, error, events } = useSelector((state) => state.events);
+
+  const { loading, events } = useSelector((state) => state.events);
   const published = events.filter((eventItem) => {
     return eventItem.status.toLowerCase() === "published";
   });
   const upcoming = events.filter((eventItem) => {
-    return eventItem.status.toLowerCase() === "draft";
+    return eventItem.status.toLowerCase() === "upcoming";
   });
-  useEffect(() => {
-    dispatch(getEvents());
-  }, []);
+
   return (
     <motion.section
       className="w-full py-space-xl bg-surface-container-lowest"
